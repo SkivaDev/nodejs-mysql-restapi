@@ -1,8 +1,14 @@
 import express from "express";
+import {pool} from "./db.js";
 
 const app = express();
 
 app.get('/', (req, res) => res.send("Bienvenido a mi API"));
+
+app.get("/ping", async (req, res) => {
+  const [result] = await pool.query('SELECT "hello worlds" AS result')
+  res.json(result[0]);
+});
 
 app.get("/employees", (req, res) => res.send("Obteniendo los empleados"));
 app.post("/employees", (req, res) => res.send("Creando los empleados"));
